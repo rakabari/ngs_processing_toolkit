@@ -1,0 +1,7 @@
+149M	/opt
+149M	/opt/CrowdStrike
+0	/opt/CrowdStrike/Downloads
+0	/opt/CrowdStrike/sandbox
+0	/opt/containerd
+0	/opt/containerd/bin
+0	/opt/containerd/lib

@@ -1,5 +1,52 @@
-# Ignore Python compiled files
-*.pyc
+## Python compiled file caches (anywhere)
+**/__pycache__/
+**/*.pyc
+**/*.pyo
+**/*.pyd
 
-# Ignore log directories
+## LOGS
+# log dir at root
 logs/
+# log dir anywhere
+**/logs/
+# .log files in any dir
+**/*.log
+
+# all 'application.properties' in any dir
+**/*application.properties
+
+## ADDITIONAL POSSIBLE IGNORE LIST ##
+
+# Linux temporary files
+*~
+.DS_Store
+Thumbs.db
+
+# Virtual Environments
+venv/
+env/
+*.venv/
+
+# Jupyter Notebook Checkpoints
+.ipynb_checkpoints/
+
+# Editor configurations
+.vscode/
+.idea/
+
+# Python distribution artifacts
+build/
+dist/
+*.egg-info/
+*.egg
+
+# Docker files (if not required)
+*.dockerignore
+Dockerfile
+
+# Bioinformatics specific
+data/
+results/
+*.csv
+*.fasta
+*.fastq

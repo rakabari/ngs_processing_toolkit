@@ -1,0 +1,9 @@
+385M	/boot
+7.0M	/boot/efi
+7.0M	/boot/efi/EFI
+1020K	/boot/efi/EFI/BOOT
+6.0M	/boot/efi/EFI/redhat
+2.4M	/boot/grub2
+2.3M	/boot/grub2/fonts
+20K	/boot/loader
+20K	/boot/loader/entries
