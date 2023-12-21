@@ -81,6 +81,25 @@ def get_unique_values(lst: str) -> str:
         TypeError
 
 
+# def csq_normalize(df_is, n):
+#     """
+#     Normalize the 'CSQ' column of the input DataFrame 'df_is' containing comma-separated values,
+#     each containing pipe-separated key-value pairs, and extract the values corresponding to the first 'num_values' keys.
+#     Returns a DataFrame with one column for each key and row for each original row in 'df_is'.
+#     """
+#     l = []
+#     for n in range(n):
+#         l.append(pd.json_normalize(df_is.apply(lambda row: dict(zip(
+#             CSQ_COL, row['CSQ'].split(',')[n].split('|') if row['CSQ'].count(',') >= n else row['CSQ'].split(',')[0].split('|'))), axis=1).fillna('')))
+#     d = l[0] + '|' + l[1] + '|' + l[2] + '|' + l[3] + '|' + l[4] + '|' +\
+#         l[5] + '|' + l[6] + '|' + l[7] + '|' + l[8] + '|' + l[9] + '|' +\
+#         l[10] + '|' + l[11] + '|' + l[12] + '|' + l[13] + '|' + l[14] + '|' +\
+#         l[15] + '|' + l[16] + '|' + l[17] + '|' + l[18] + '|' + l[19] + '|' +\
+#         l[20] + '|' + l[21] + '|' + l[22] + '|' + l[23] + '|' + l[24] + '|' +\
+#         l[25] + '|' + l[26] + '|' + l[27] + '|' + l[28] + '|' + l[29] + '|' +\
+#         l[30] + '|' + l[31] + '|' + l[32] + '|' + l[33] + '|' + l[34]
+#     return d.applymap(get_unique_values)
+
 def csq_normalize(df_is, n):
     """
     Normalize the 'CSQ' column of the input DataFrame 'df_is' containing comma-separated values,
@@ -88,18 +107,16 @@ def csq_normalize(df_is, n):
     Returns a DataFrame with one column for each key and row for each original row in 'df_is'.
     """
     l = []
-    for n in range(n):
+    for i in range(n):
         l.append(pd.json_normalize(df_is.apply(lambda row: dict(zip(
-            CSQ_COL, row['CSQ'].split(',')[n].split('|') if row['CSQ'].count(',') >= n else row['CSQ'].split(',')[0].split('|'))), axis=1).fillna('')))
-    d = l[0] + '|' + l[1] + '|' + l[2] + '|' + l[3] + '|' + l[4] + '|' +\
-        l[5] + '|' + l[6] + '|' + l[7] + '|' + l[8] + '|' + l[9] + '|' +\
-        l[10] + '|' + l[11] + '|' + l[12] + '|' + l[13] + '|' + l[14] + '|' +\
-        l[15] + '|' + l[16] + '|' + l[17] + '|' + l[18] + '|' + l[19] + '|' +\
-        l[20] + '|' + l[21] + '|' + l[22] + '|' + l[23] + '|' + l[24] + '|' +\
-        l[25] + '|' + l[26] + '|' + l[27] + '|' + l[28] + '|' + l[29] + '|' +\
-        l[30] + '|' + l[31] + '|' + l[32] + '|' + l[33] + '|' + l[34]
-    return d.applymap(get_unique_values)
+            CSQ_COL, row['CSQ'].split(',')[i].split('|') if row['CSQ'].count(',') >= i else row['CSQ'].split(',')[0].split('|'))), axis=1).fillna('')))
+    
+    d = l[0]
+    for df in l[1:]:
+        d += '|' + df
 
+    # Using 'apply' with a lambda function to apply 'get_unique_values' to each element of the DataFrame
+    return d.apply(lambda x: x.map(get_unique_values))
 
 def to_num(df_ncnv: pd.DataFrame, exclude_list: list[str]) -> pd.DataFrame:
     """
@@ -277,7 +294,7 @@ def process_vcf(vcf_path, db_con):
     df_ncnv.drop(columns=cnv_del, inplace=True)
     df_ncnv.to_sql('unfiltered_vcf', db_con,
                    if_exists='append', index=False)
-    # db_con.commit()
+    db_con.commit()
 
 
 def process_vcfs():

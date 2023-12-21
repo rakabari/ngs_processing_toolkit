@@ -65,15 +65,13 @@ CREATE TABLE TMB_MSI_LOH AS
 		LEFT JOIN	TUMORFRACTION_TEMP	TF	ON UC.FMI_CaseID = TF.FMI_CaseID
 		LEFT JOIN	MEDIANCOVERAGE_TEMP	MC	ON UC.FMI_CaseID = MC.FMI_CaseID;
 	
-		CREATE INDEX idx_FMI_CaseID 		ON TMB_MSI_LOH (FMI_CaseID);
-		CREATE INDEX idx_PatientName 		ON TMB_MSI_LOH (PatientName);
-		CREATE INDEX idx_CollectionDate 	ON TMB_MSI_LOH (CollectionDate);
-		CREATE INDEX idx_SpecimenSite 		ON TMB_MSI_LOH (SpecimenSite);
-		CREATE INDEX idx_DiagnosisSubmitted ON TMB_MSI_LOH (DiagnosisSubmitted);
-		CREATE INDEX idx_TestType 			ON TMB_MSI_LOH (TestType);
-		CREATE INDEX idx_TMB_Status 		ON TMB_MSI_LOH (TMB_Status);
-		CREATE INDEX idx_TMB_Score 			ON TMB_MSI_LOH (TMB_Score);
-		CREATE INDEX idx_MSI_Status 		ON TMB_MSI_LOH (MSI_Status);
+		CREATE INDEX idx_FMI_CaseID 		ON TMB_MSI_LOH (FMI_CaseID(50));
+		CREATE INDEX idx_PatientName 		ON TMB_MSI_LOH (PatientName(100));
+		CREATE INDEX idx_SpecimenSite 		ON TMB_MSI_LOH (SpecimenSite(50));
+		CREATE INDEX idx_DiagnosisSubmitted ON TMB_MSI_LOH (DiagnosisSubmitted(200));
+		CREATE INDEX idx_TestType 			ON TMB_MSI_LOH (TestType(50));
+		CREATE INDEX idx_TMB_Status 		ON TMB_MSI_LOH (TMB_Status(30));
+		CREATE INDEX idx_MSI_Status 		ON TMB_MSI_LOH (MSI_Status(30));
 
 -- --------------------Creating a table for CNV data---------------------------
 
@@ -82,17 +80,14 @@ CREATE TABLE CNV AS
 		FROM 	BIOMARKERS
 		WHERE 	CopyNumber IS NOT NULL;
 
-		CREATE INDEX idx_FMI_CaseID 		ON CNV (FMI_CaseID);
-		CREATE INDEX idx_PatientName 		ON CNV (PatientName);
-		CREATE INDEX idx_CollectionDate 	ON CNV (CollectionDate);
-		CREATE INDEX idx_SpecimenSite 		ON CNV (SpecimenSite);
-		CREATE INDEX idx_DiagnosisSubmitted ON CNV (DiagnosisSubmitted);
-		CREATE INDEX idx_TestType 			ON CNV (TestType);
-		CREATE INDEX idx_CopyNumber 		ON CNV (CopyNumber);
-		CREATE INDEX idx_CNV_gene 			ON CNV (CNV_gene);
-		CREATE INDEX idx_CNV_ratio 			ON CNV (CNV_ratio);	
-		CREATE INDEX idx_CNV_status 		ON CNV (CNV_status);
-		CREATE INDEX idx_CNV_type 			ON CNV (CNV_type);
+		CREATE INDEX idx_FMI_CaseID 		ON CNV (FMI_CaseID(50));
+		CREATE INDEX idx_PatientName 		ON CNV (PatientName(100));
+		CREATE INDEX idx_SpecimenSite 		ON CNV (SpecimenSite(50));
+		CREATE INDEX idx_DiagnosisSubmitted ON CNV (DiagnosisSubmitted(200));
+		CREATE INDEX idx_TestType 			ON CNV (TestType(50));
+		CREATE INDEX idx_CNV_gene 			ON CNV (CNV_gene(30));
+		CREATE INDEX idx_CNV_status 		ON CNV (CNV_status(30));
+		CREATE INDEX idx_CNV_type 			ON CNV (CNV_type(30));
 
 -- --------------------Creating a table for GR data----------------------------
 
@@ -101,17 +96,15 @@ CREATE TABLE GR_FUSIONS AS
 		FROM 	BIOMARKERS
 		WHERE	GR_desc IS NOT NULL;
 		
-		CREATE INDEX idx_FMI_CaseID 		ON GR_FUSIONS (FMI_CaseID);
-		CREATE INDEX idx_PatientName 		ON GR_FUSIONS (PatientName);
-		CREATE INDEX idx_CollectionDate 	ON GR_FUSIONS (CollectionDate);
-		CREATE INDEX idx_SpecimenSite 		ON GR_FUSIONS (SpecimenSite);
-		CREATE INDEX idx_DiagnosisSubmitted ON GR_FUSIONS (DiagnosisSubmitted);
-		CREATE INDEX idx_TestType 			ON GR_FUSIONS (TestType);
-		CREATE INDEX idx_GR_inframe 		ON GR_FUSIONS (GR_inframe);
-		CREATE INDEX idx_GR_genes 			ON GR_FUSIONS (GR_genes);
-		CREATE INDEX idx_GR_status 			ON GR_FUSIONS (GR_status);
-		CREATE INDEX idx_GR_reads 			ON GR_FUSIONS (GR_reads);
-		CREATE INDEX idx_GR_type 			ON GR_FUSIONS (GR_type);
+		CREATE INDEX idx_FMI_CaseID 		ON GR_FUSIONS (FMI_CaseID(50));
+		CREATE INDEX idx_PatientName 		ON GR_FUSIONS (PatientName(100));
+		CREATE INDEX idx_SpecimenSite 		ON GR_FUSIONS (SpecimenSite(50));
+		CREATE INDEX idx_DiagnosisSubmitted ON GR_FUSIONS (DiagnosisSubmitted(200));
+		CREATE INDEX idx_TestType 			ON GR_FUSIONS (TestType(50));
+		CREATE INDEX idx_GR_inframe 		ON GR_FUSIONS (GR_inframe(30));
+		CREATE INDEX idx_GR_genes 			ON GR_FUSIONS (GR_genes(50));
+		CREATE INDEX idx_GR_status 			ON GR_FUSIONS (GR_status(30));
+		CREATE INDEX idx_GR_type 			ON GR_FUSIONS (GR_type(50));
 
 -- Dropping temporary tables (Temp table cleanup)
 DROP TABLE IF EXISTS UNIQUE_CASES_TEMP, TMB_TEMP, MSI_STATUS_TEMP, MSI_LOCI_TEMP, LOH_TEMP, TUMORFRACTION_TEMP, MEDIANCOVERAGE_TEMP;

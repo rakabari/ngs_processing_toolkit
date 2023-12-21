@@ -15,7 +15,7 @@ def get_files_to_process(output_dir, db_con):
     processed = get_distinct_values(table='patient_reports',
                                     columns=['Accession'],
                                     db_con=db_con)
-
+    
     to_be_processed = []
     for file in os.listdir(output_dir):
 

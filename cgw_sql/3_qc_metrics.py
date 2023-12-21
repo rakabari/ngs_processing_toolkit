@@ -80,7 +80,8 @@ def parse_qc_table(filepath: str, db_con) -> None:
 
     # Store the DataFrame in the MySQL database
     df.to_sql('qc_metrics', db_con, if_exists='append', index=False)
-    # db_con.commit()
+    db_con.commit()
+    
     # Remove the temporary CSV file
     os.remove(tmp_csv)
 
@@ -91,7 +92,6 @@ def process_qc_metrics():
     """
     with sql_con(MYE_DB).connect() as db_con:
         to_be_processed = get_files_to_process(CASE_FILES, db_con)
-
         for pdf in to_be_processed:
             parse_qc_table(pdf, db_con)
 

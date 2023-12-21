@@ -1,7 +1,7 @@
 #!/home/sbsuser/venv/bin/python3.11
 import pandas as pd
 import os
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, text
 from sqlalchemy.engine import Engine
 
 
@@ -31,7 +31,7 @@ def execute_sql_file(sql_file: str, db_con: Engine) -> None:
         executed = False  # boolean flag indicating whether any statements have been executed
         for sql_statement in statements:
             if len(sql_statement.strip()) > 0:  # use strip to remove leading/trailing whitespace
-                db_con.execute(sql_statement)
+                db_con.execute(text(sql_statement))
                 executed = True
         if executed:
             print(f'INFO: Executed: {os.path.basename(sql_file)}')
