@@ -8,7 +8,7 @@ from datetime import datetime
 from interop import py_interop_run_metrics, py_interop_summary
 from utils.sql_con import sql_con, get_distinct_values, drop_sort
 from utils.run_validation import is_valid_run, is_b2f_complete
-from utils.global_vars import S_DRIVE
+from utils.global_vars import S_DRIVE, NGSDATA
 from utils.mnt_win import mount_drive
 from sav_variables import *
 
@@ -304,8 +304,7 @@ def sav_metrics_to_db(db_con, rfpath_root: str):
     '''
     Sends SAV metrics tables to database.
     '''
-    completed = get_distinct_values(
-        'summary', columns=['RunID'], db_con=db_con)
+    completed = get_distinct_values('summary', columns=['RunID'], db_con=db_con)
 
     for rf in os.listdir(rfpath_root):
         rfpath = os.path.join(rfpath_root, rf)
@@ -341,6 +340,7 @@ if __name__ == '__main__':
     try:
         with sql_con(SAV_DB).connect() as db_con:
             sav_metrics_to_db(db_con, NGSDATA)
+            # sav_metrics_to_db(db_con, '/mnt/isiloncwb01_NGSData/NGS_Myeloid/Illumina_Runs/Older_Runs/')
     except Exception as e:
         print(f'ERROR: {e}')
 
