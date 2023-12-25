@@ -1,5 +1,4 @@
 #!/home/sbsuser/venv/bin/python3.11
-# import pypaths
 import os
 from utils.sorted_scripts import sorted_scripts
 

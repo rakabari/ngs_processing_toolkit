@@ -1,5 +1,4 @@
 #!/home/sbsuser/venv/bin/python3.11
-# import pypaths  # for cronjob
 import io
 import os
 import pandas as pd

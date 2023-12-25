@@ -1,5 +1,4 @@
 #!/home/sbsuser/venv/bin/python3.11
-# import pypaths  # for cronjob
 import csv
 import json
 import os

@@ -1,5 +1,4 @@
 #!/home/sbsuser/venv/bin/python3.11
-# import pypaths  # for cronjob
 import os
 from api_functions import get_response, res_to_json
 from utils.global_vars import API_URL, COMPLETE_JSON, INCOMPLETE_JSON

@@ -1,5 +1,4 @@
 #!/home/sbsuser/venv/bin/python3.11
-# import pypaths  # for cronjob
 import os
 from datetime import datetime
 from dateutil.relativedelta import relativedelta

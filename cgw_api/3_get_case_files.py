@@ -1,5 +1,4 @@
 #!/home/sbsuser/venv/bin/python3.11
-# import pypaths  # for cronjob
 import json
 import os
 import shutil

@@ -1,5 +1,4 @@
 #!/home/sbsuser/venv/bin/python3.11
-# import pypaths  # for cronjob
 import io
 import os
 import pandas as pd
@@ -62,8 +61,8 @@ def process_vcf_files():
     """
     Process VCF files in the specified directory and write results to TSV files in the specified output directories.
     """
-    completed = completed_ids()
 
+    completed = completed_ids()
     for root, dirs, files in os.walk(CASE_FILES):
         for name in files:
             if name.endswith('.vcf') and 'NAHG' in name:
@@ -73,27 +72,29 @@ def process_vcf_files():
                 vcf_path = os.path.join(root, name)
 
                 if runid not in completed:
-                    print(f'INFO: Exporting {file_name}')
+                    try:
+                        print(f'INFO: Exporting {file_name}')
 
-                    df = get_vaf(vcf_path)
-                    df.columns = ['Variant', runid]
+                        df = get_vaf(vcf_path)
+                        df.columns = ['Variant', runid]
 
-                    pos_tsv = os.path.join(POS, file_name)
-                    df.to_csv(pos_tsv, sep='\t', index=False)
+                        pos_tsv = os.path.join(POS, file_name)
+                        df.to_csv(pos_tsv, sep='\t', index=False)
 
-                    backup_tsv = os.path.join(POS_BU, file_name)
-                    df.to_csv(backup_tsv, sep='\t', index=False)
+                        backup_tsv = os.path.join(POS_BU, file_name)
+                        df.to_csv(backup_tsv, sep='\t', index=False)
 
-
+                    except ValueError as e:
+                        if 'single column format_sample' in str(e).lower():
+                            print(f'ERROR: {runid}: Empty Dataframe, Possibly no variants in VCF.')
+                            pass
+                        else:
+                            print(f'ERROR: {runid}: Other ValueError than Empty DataFrame: {e}')
+                            pass
+                    except Exception as ex:
+                        print(f'ERROR: {runid}: {ex}')
+                        pass
+                    
 if __name__ == '__main__':
-    try:
-        process_vcf_files()
-    except ValueError as e:
-        if 'single column format_sample' in str(e).lower():
-            print('WARN: Empty Dataframe, Possibly no variants in VCF file.')
-        else:
-            print(f'ERROR: Other ValueError than empty DataFrame: {e}')
-    except Exception as ex:
-        print(f'ERROR: An unexpected error occurred - {ex}')
-
+    process_vcf_files()
     print(f'INFO: Completed: {os.path.basename(__file__)}\n')

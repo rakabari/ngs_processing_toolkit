@@ -1,5 +1,4 @@
 #!/home/sbsuser/venv/bin/python3.11
-# import pypaths  # for cronjob
 import os
 from json_functions import json_pretty, parse_json_report
 from sql_variables import patientReport_q

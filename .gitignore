@@ -7,6 +7,7 @@
 ## LOGS
 # log dir at root
 logs/
+temp/
 # log dir anywhere
 **/logs/
 # .log files in any dir
