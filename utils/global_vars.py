@@ -155,7 +155,8 @@ TNX_DIR = '/Genomics'
 
 
 # VT = os.path.join(SCRIPTS, 'vt_tool/vt/vt')
-NIRVANATOOL = os.path.join(HOME, 'nirvana_tool')
+NIRVANATOOL = os.path.join(HOME, 'Nirvana')
+# NIRVANATOOL = os.path.join(HOME, 'nirvana_tool')
 # NIRVANATOOL = os.path.join(AF, 'nirvana_tool') # backup
 VCFTOOLS = os.path.join(HOME, 'vcftools')
 # HG19 = os.path.join(HOME, 'hg19')

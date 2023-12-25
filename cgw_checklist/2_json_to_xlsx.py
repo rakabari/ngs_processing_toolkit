@@ -8,8 +8,6 @@ from ckl_variables import ORDERED_COL
 from ckl_functions import *
 import xlsxwriter
 
-# #
-
 
 def move_completed_checklists(results_dir):
     """
