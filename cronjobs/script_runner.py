@@ -1,5 +1,4 @@
 #!/home/sbsuser/venv/bin/python3.11
-# import pypaths
 import os
 from datetime import datetime
 from utils.global_vars import LOGS

@@ -73,11 +73,11 @@ def vcf_to_df(vcf_path):
         df = df.fillna('')
 
         if len(df['INFO'].value_counts()) > 0:
-            print(f'{file_name} INFO: PROCESSING')
+            print(f'INFO: {file_name} PROCESSING')
             df = process_info_column(df)
         else:
             # Reject file with empty INFO field
-            print(f'{file_name} WARNING: Not Processed Empty INFO Field')
+            print(f'WARN: {file_name} Not Processed Empty INFO Field')
             shutil.copy(vcf_path, os.path.join(reject_vcf, vcf_name))
 
     return df

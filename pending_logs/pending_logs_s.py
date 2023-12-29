@@ -5,7 +5,6 @@ from datetime import datetime, timedelta
 from utils.mnt_win import mount_drive
 from utils.global_vars import S_DRIVE, S_LOGS, NGS_MYE
 
-mount_drive(S_DRIVE)
 
 COL_RENAME = {'mrn': 'MRN',
               'firstname': 'Patient First Name ',

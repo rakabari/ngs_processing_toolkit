@@ -75,7 +75,7 @@ INSTRUMENT_DRIVES = [os.path.join(WATSON_DX, 'Illumina/MiSeqOutput'),
 
 ### ____________Run directories derived from S_DRIVE____________###
 ### _______LOGS________###
-S_LOGS = os.path.join(S_DRIVE, 'logs')
+S_LOGS = os.path.join(S_DRIVE, 'Logs')
 ### ______MYELOID______###
 NGS_MYE = os.path.join(S_DRIVE, 'NGS_Myeloid')
 MYE_RUNS = os.path.join(NGS_MYE, 'Illumina_Runs')
