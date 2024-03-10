@@ -9,6 +9,7 @@ def copy_vcfs(case_files_path, case_nirvana_path, temp_path):
     """
     Copy VCFs from the source directory to the temporary directory.
     It skips the files that have already been annotated by the Nirvana tool.
+    This because Nirvana does not write output cross-OS.
 
     Parameters:
     case_files_path (str): The source directory where the VCF files are stored.
@@ -26,6 +27,10 @@ def copy_vcfs(case_files_path, case_nirvana_path, temp_path):
             # Skip completed, non-vcf files and validation cases
             if accession in completed or not file.endswith('.vcf') or 'MD2' not in file:
                 continue
+            
+            # Remove any remanant files from failed script
+            for i in os.listdir(temp_path):
+                os.remove(os.path.join(temp_path, i))
 
             src = os.path.join(path, file)
             dst = os.path.join(temp_path, f'{accession}_{info_id}.vcf')
@@ -117,7 +122,7 @@ def run_nirvana_single_file(vcf_path, nirvana_tool):
     output_name = os.path.basename(vcf_path).split('.vcf')[0]
     output_path = os.path.join(os.path.dirname(vcf_path), output_name)
 
-    cmd = f' dotnet {nirvana_tool}/bin/Release/net6.0/Nirvana.dll \
+    cmd = f'~/.dotnet/dotnet {nirvana_tool}/Nirvana.dll \
                 -c {nirvana_tool}/Data/Cache/GRCh37/Both \
                 --sd {nirvana_tool}/Data/SupplementaryAnnotation/GRCh37 \
                 -r {nirvana_tool}/Data/References/Homo_sapiens.GRCh37.Nirvana.dat \
@@ -125,7 +130,6 @@ def run_nirvana_single_file(vcf_path, nirvana_tool):
                 -o {output_path}'
     subprocess.run(cmd, shell=True, check=True)
     print(f'INFO: {os.path.basename(vcf_path)}: Annotated')
-
 
 def run_nirvana(temp_path, nirvana_tool):
     """

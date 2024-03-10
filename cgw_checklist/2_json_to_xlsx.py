@@ -23,12 +23,17 @@ def move_completed_checklists(results_dir):
         # Process only excel files that are not currently open by a user
         if file.endswith('.xlsx') and '~' not in file:
             # Get signed out field from the excel checklist
-            signed = str(pd.read_excel(file_path).iloc[1][2]).strip()
+            # signed = str(pd.read_excel(file_path).iloc[1][2]).strip()
+            signed = str(pd.read_excel(file_path).iloc[1, 2]).strip()
 
             if signed and signed != 'nan':
-                destination_path = os.path.join(completed_dir, file)
-                shutil.move(file_path, destination_path)
-                print(f'INFO: Moved {file} to Completed_Checklists')
+                try:
+                    destination_path = os.path.join(completed_dir, file)
+                    shutil.move(file_path, destination_path)
+                    print(f'INFO: Moved {file} to Completed_Checklists')
+                except Exception as e:
+                    print(f'ERROR: {e}')
+                    pass
 
 
 def get_completed_accessions(results_dir):
@@ -88,11 +93,9 @@ def get_checked_variants(results_dir):
     """
     signed_checklists_dir = os.path.join(results_dir, 'Completed_Checklist')
 
-    checked_dataframes = [
-        process_checklist(os.path.join(signed_checklists_dir, file))
-        for file in os.listdir(signed_checklists_dir)
-        if file.endswith('.xlsx')
-    ]
+    checked_dataframes = [process_checklist(os.path.join(signed_checklists_dir, file))
+                            for file in os.listdir(signed_checklists_dir)
+                                if file.endswith('.xlsx')    ]
 
     return clean_dataframes(checked_dataframes)
 
@@ -113,37 +116,38 @@ def process_nirvana_files(nirvana_path, results_dir, checklist_path) -> None:
     """
 
     completed_accessions = get_completed_accessions(results_dir)
-    df_checked = get_checked_variants(results_dir)
+    # df_checked = get_checked_variants(results_dir)
 
     for file in os.listdir(nirvana_path):
-        if not file.endswith('json.gz') and file.split('_')[0] in completed_accessions:
+        if file.endswith(('jsi', '.vcf')):
+            continue
+        if file.split('_')[0] in completed_accessions:
             continue
 
         json_path = os.path.join(nirvana_path, file)
-        vcf_path = os.path.join(
-            nirvana_path, file.replace('.json.gz', '.vcf'))
+        vcf_path = os.path.join(nirvana_path, file.replace('.json.gz', '.vcf'))
         print(f'INFO: JSON_to_EXCEL {file}')
 
-        df_v = read_nirvana_vcf(vcf_path)
-        df_j = json_to_df(json_path)
-        final_df = pd.merge(df_v, df_j, how='left')
-        final_df = sqldf(CLINVAR_Q)
-        final_df = final_df.assign(**{c: '' for c in ADD_COL})
-        final_df.set_index('Variant', inplace=True)
-        final_df.update(df_checked.set_index('Variant'))
-        final_df.reset_index(inplace=True)
-        final_df = final_df.reindex(columns=ORDERED_COL)
+        try:
+            df_v = read_nirvana_vcf(vcf_path)
+            df_j = json_to_df(json_path)
+            final_df = pd.merge(df_v, df_j, how='left')
+            final_df = sqldf(CLINVAR_Q)
+            final_df = final_df.assign(**{c: '' for c in ADD_COL})
+            final_df.set_index('Variant', inplace=True)
+            # final_df.update(df_checked.set_index('Variant'))
+            final_df.reset_index(inplace=True)
+            final_df = final_df.reindex(columns=ORDERED_COL)
 
-        ckl_file = file.replace('json.gz', 'xlsx')
-        ckl_path = os.path.join(results_dir, ckl_file)
-        shutil.copy(checklist_path, ckl_path)
+            ckl_file = file.replace('json.gz', 'xlsx')
+            ckl_path = os.path.join(results_dir, ckl_file)
+            shutil.copy(checklist_path, ckl_path)
 
-        df_append_to_excel(final_df, ckl_path)
-
+            df_append_to_excel(final_df, ckl_path)
+        except Exception as e:
+            print(f'WARN: {e}')
+            pass
 
 if __name__ == '__main__':
-    try:
-        process_nirvana_files(CASE_NIRVANA, RESULTS, CHECKLIST_XLSX)
-    except Exception as e:
-        print(f'ERROR: {e}')
+    process_nirvana_files(CASE_NIRVANA, RESULTS, CHECKLIST_XLSX)
     print(f'INFO: Completed: {os.path.basename(__file__)}\n')

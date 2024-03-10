@@ -12,7 +12,8 @@ def get_response(url: str) -> requests.Response:
         response = requests.get(url, headers=CGW, timeout=None)
         while response.status_code != 200:
             response = requests.get(url, headers=CGW, timeout=None)
-            time.sleep(2)
+            print(f'{response.status_code} : Sleeping')
+            time.sleep(4)
         return response
     except Exception as e:
         print(f'ERROR: {e}')

@@ -124,8 +124,8 @@ MANUAL_BACKUP_DIR = os.path.join(RHEL, 'manual')
 ### _____CHECKLIST_____###
 CHECKLIST = os.path.join(AF, 'checklist')
 CHECKLIST_XLSX = os.path.join(AF, 'checklist/vc.xlsx')
-# RESULTS = os.path.join(NGS_MYE, 'Variant_Checklist/Results')
-RESULTS = os.path.join(AF, 'Variant_Checklist/Results')
+RESULTS = os.path.join(NGS_MYE, 'Variant_Checklist/Results')
+# RESULTS = os.path.join(AF, 'Variant_Checklist/Results')
 
 ### _______TEMP________###
 TMP = os.path.join(AF, 'tmp')
@@ -150,13 +150,8 @@ TNX_PASS = os.environ.get('pathngs_p')
 TNX_SENT = os.path.join(S3_PATH, 'trinetx_sent/xml_sent.csv')
 TNX_DIR = '/Genomics'
 
-
 ### ________HOME where tools/analysis files are stored__________###
-
-
 # VT = os.path.join(SCRIPTS, 'vt_tool/vt/vt')
 NIRVANATOOL = os.path.join(HOME, 'Nirvana')
-# NIRVANATOOL = os.path.join(HOME, 'nirvana_tool')
-# NIRVANATOOL = os.path.join(AF, 'nirvana_tool') # backup
 VCFTOOLS = os.path.join(HOME, 'vcftools')
 # HG19 = os.path.join(HOME, 'hg19')
