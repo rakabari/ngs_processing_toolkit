@@ -5,12 +5,11 @@ import pandas as pd
 from utils.global_vars import CASE_FILES, POS, POS_BU
 
 
-def completed_ids():
+def completed_info_ids():
     """
-    Returns a list of positive control run IDs that have been previously processed.
+    Returns a list of positive control Infomatics IDs that have been previously processed.
     """
-    return [x.split('~')[0] for x in os.listdir(POS_BU)]
-
+    return [x.split('~')[-1].replace('.tsv', '') for x in os.listdir(POS_BU)]
 
 def read_vcf(path: str) -> pd.DataFrame:
     """
@@ -61,17 +60,18 @@ def process_vcf_files():
     """
     Process VCF files in the specified directory and write results to TSV files in the specified output directories.
     """
-
-    completed = completed_ids()
+    completed_infoids =  completed_info_ids()
     for root, dirs, files in os.walk(CASE_FILES):
         for name in files:
             if name.endswith('.vcf') and 'NAHG' in name:
+                
                 names = name.split('$')
                 runid, infoid, accession = names[3], names[2], names[1]
                 file_name = f'{runid}~{accession}~{infoid}.tsv'
                 vcf_path = os.path.join(root, name)
 
-                if runid not in completed:
+                # if runid not in completed_runids:
+                if infoid not in completed_infoids:
                     try:
                         print(f'INFO: Exporting {file_name}')
 

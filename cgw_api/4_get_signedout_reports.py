@@ -19,7 +19,7 @@ def get_signed_cases(start_date):
     Returns a list of signed out cases within the date range specified.
     """
     signed_cases_url = f"{API_URL}?dateSignedOutStart={start_date.strftime('%Y-%m-%d')}"
-    # signed_cases_url = f"{API_URL}?dateSignedOutStart=2020-09-02&dateSignedOutEnd=2022-09-02"
+    # signed_cases_url = f"{API_URL}?dateSignedOutStart=2024-12-31&dateSignedOutEnd=2025-12-31"
     signed_cases = get_response(signed_cases_url).json()
     return signed_cases
 

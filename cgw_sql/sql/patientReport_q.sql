@@ -5,8 +5,7 @@ DROP TABLE
     Frequency_in_Disease,
     patient_reportsQ;
 
-CREATE TEMPORARY
-TABLE Frequency
+CREATE TEMPORARY TABLE Frequency
 SELECT
     CONCAT(
         geneSymbol,
@@ -84,6 +83,12 @@ SELECT
     patient_reports.geneSymbol,
     CONCAT(cSyntax, structuralSyntax) AS cSyntax,
     CONCAT(pSyntax, structuralSyntax) AS pSyntax,
+    CASE
+        WHEN cSyntax IS NULL AND pSyntax IS NULL THEN NULL
+        WHEN LOWER(cSyntax) REGEXP '(ins|del|dup)' OR LOWER(pSyntax) REGEXP '(ins|del|dup)'
+        THEN 'INDEL'
+        ELSE 'SNV'
+    END AS Variant_Type,
     patient_reports.VAF,
     patient_reports.Depth,
     patient_reports.`Level` AS Classification,

@@ -5,7 +5,7 @@ from dateutil.relativedelta import relativedelta
 from api_functions import get_response, res_to_json
 from utils.global_vars import API_URL, COMPLETE_JSON, INCOMPLETE_JSON, S_DRIVE
 from utils.mnt_win import mount_drive
-
+from utils.global_vars import CGW
 
 def get_completed_cases(dir_path: str):
     """

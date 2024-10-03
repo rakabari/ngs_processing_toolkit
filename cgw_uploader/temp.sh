@@ -1,0 +1,1 @@
+/usr/lib/jvm/java-1.8.0-amazon-corretto/jre/bin/java -jar -Dloader.main=com.pdx.commandLine.ApplicationCommandLine RunUploader-1.14.1.jar --commandLine  --runFolder=/home/sbsuser/ngsdata/shared/241001_M70358_0000_000000000-VALID --sequencer=Illumina --sequencerFileType=fastq"

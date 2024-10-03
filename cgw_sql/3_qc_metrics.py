@@ -92,13 +92,12 @@ def process_qc_metrics():
     with sql_con(MYE_DB).connect() as db_con:
         to_be_processed = get_files_to_process(CASE_FILES, db_con)
         for pdf in to_be_processed:
-            parse_qc_table(pdf, db_con)
-
+            try:
+                parse_qc_table(pdf, db_con)
+            except Exception as e:
+                print(f'WARN: {e}')
+                pass
 
 if __name__ == '__main__':
-    try:
-        process_qc_metrics()
-    except Exception as e:
-        print(f'WARN: {e}')
-        pass
+    process_qc_metrics()
     print(f'INFO: Completed: {os.path.basename(__file__)}\n')

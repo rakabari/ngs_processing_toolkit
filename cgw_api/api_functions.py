@@ -5,21 +5,20 @@ import sys
 import time
 from utils.global_vars import CGW
 
-
+import time
 def get_response(url: str) -> requests.Response:
     """Returns a response object from the given url"""
     try:
         response = requests.get(url, headers=CGW, timeout=None)
         while response.status_code != 200:
             response = requests.get(url, headers=CGW, timeout=None)
-            print(f'{response.status_code} : Sleeping')
             time.sleep(4)
         return response
     except Exception as e:
         print(f'ERROR: {e}')
         sys.exit()
 
-
+	
 def res_to_json(response_json, filepath: str) -> None:
     """Writes the response to a JSON file (indented)"""
     with open(filepath, 'w', encoding='utf-8') as f:
